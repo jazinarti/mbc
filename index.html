@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوابة الأخبار الذكية | أرض السعودية</title>
+    <title>محرك البحث الذكي | أرض السعودية</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #00b359;
             --bg-gradient: linear-gradient(135deg, #f4f7f5 0%, #e8efe9 100%);
-            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-bg: #ffffff;
             --text-main: #1e2925;
             --text-sub: #5c6f68;
+            --search-shadow: 0 4px 12px rgba(0, 60, 30, 0.05);
+            --search-shadow-hover: 0 6px 20px rgba(0, 179, 89, 0.15);
         }
 
         * {
@@ -24,311 +26,139 @@
             background: var(--bg-gradient);
             color: var(--text-main);
             font-family: 'Segoe UI', Roboto, sans-serif;
-            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
             min-height: 100vh;
+            padding: 20px;
+            position: relative;
         }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        /* الهيدر والعنوان */
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        header h1 {
-            font-size: 28px;
-            color: var(--text-main);
-            margin-bottom: 8px;
-        }
-
-        header p {
-            font-size: 14px;
-            color: var(--text-sub);
-        }
-
-        /* شريط التحكم والبحث */
-        .controls-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 30px;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .search-box {
-            display: flex;
+        /* حاوية البيانات الحية للزائر (تظهر دائماً بشكل خفيف أعلى اليمين) */
+        .visitor-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
             background: var(--card-bg);
-            border: 1px solid rgba(0, 179, 89, 0.2);
-            border-radius: 12px;
+            border: 1px solid rgba(0, 179, 89, 0.15);
             padding: 8px 15px;
-            width: 100%;
-            max-width: 350px;
-            align-items: center;
-            box-shadow: 0 4px 10px rgba(0,60,30,0.03);
-        }
-
-        .search-box input {
-            border: none;
-            background: transparent;
-            outline: none;
-            width: 100%;
-            padding-right: 10px;
-            font-family: inherit;
-            color: var(--text-main);
-        }
-
-        .categories {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 5px;
-            width: 100%;
-        }
-
-        .cat-btn {
-            background: var(--card-bg);
-            border: 1px solid rgba(0,0,0,0.05);
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 13px;
-            white-space: nowrap;
-            transition: all 0.2s;
-            color: var(--text-sub);
-        }
-
-        .cat-btn.active, .cat-btn:hover {
-            background: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-            box-shadow: 0 4px 10px rgba(0, 179, 89, 0.2);
-        }
-
-        /* شبكة عرض الأخبار */
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .news-card {
-            background: var(--card-bg);
-            border-radius: 18px;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0, 60, 30, 0.05);
-            border: 1px solid rgba(0, 179, 89, 0.1);
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.3s;
-        }
-
-        .news-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .news-img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            background: #e2e8f0;
-        }
-
-        .news-content {
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-
-        .news-source {
+            border-radius: 15px;
             font-size: 11px;
-            color: var(--primary-color);
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .news-title {
-            font-size: 15px;
-            font-weight: bold;
-            color: var(--text-main);
-            margin-bottom: 10px;
-            line-height: 1.4;
-        }
-
-        .news-desc {
-            font-size: 12px;
             color: var(--text-sub);
+            box-shadow: var(--search-shadow);
             line-height: 1.5;
-            margin-bottom: 15px;
-            flex: 1;
+            text-align: right;
         }
+        .visitor-badge i { color: var(--primary-color); margin-left: 5px; }
 
-        .news-meta {
+        /* حاوية البحث الرئيسية */
+        .search-container {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
-            font-size: 11px;
-            color: var(--text-sub);
-            border-top: 1px solid rgba(0,0,0,0.04);
-            padding-top: 10px;
-        }
-
-        .read-more {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        /* رسالة جاري التحميل */
-        .loading, .error-msg {
+            width: 100%;
+            max-width: 580px;
+            margin-top: auto;
+            margin-bottom: auto;
             text-align: center;
-            grid-column: 1 / -1;
-            padding: 50px 0;
-            color: var(--text-sub);
         }
 
-        .copyright {
-            text-align: center;
-            font-size: 11px;
-            color: var(--text-sub);
-            margin-top: 50px;
-            padding: 20px 0;
-            border-top: 1px solid rgba(0,0,0,0.04);
+        .brand-logo {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 25px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
-        .copyright a { color: var(--primary-color); text-decoration: none; font-weight: 600; }
+        .brand-logo i { color: var(--primary-color); animation: float 3s ease-in-out infinite; }
 
-        @media (min-width: 768px) {
-            .categories { width: auto; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
+
+        .search-box-wrapper {
+            width: 100%;
+            position: relative;
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 179, 89, 0.25);
+            border-radius: 30px;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: var(--search-shadow);
+            transition: all 0.3s ease;
+        }
+        .search-box-wrapper:focus-within, .search-box-wrapper:hover {
+            border-color: var(--primary-color);
+            box-shadow: var(--search-shadow-hover);
+        }
+
+        .search-icon { color: var(--text-sub); font-size: 18px; margin-left: 12px; }
+        .search-input { flex: 1; border: none; outline: none; background: transparent; font-size: 16px; color: var(--text-main); font-family: inherit; }
+
+        .buttons-group { margin-top: 25px; display: flex; gap: 12px; }
+        .btn-search {
+            background: var(--card-bg); color: var(--text-main); border: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 10px 24px; font-size: 14px; font-weight: 600; border-radius: 20px; cursor: pointer;
+            transition: all 0.2s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+        .btn-search:hover { background: var(--primary-color); color: white; border-color: var(--primary-color); transform: translateY(-1px); }
+
+        .search-hints { margin-top: 20px; font-size: 12px; color: var(--text-sub); }
+        .search-hints span { color: var(--primary-color); cursor: pointer; margin-right: 5px; font-weight: 600; }
+        .search-hints span:hover { text-decoration: underline; }
+
+        /* ترحيب ونافذة الزائر لأول مرة (النافذة المنبثقة) */
+        .welcome-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(30, 41, 37, 0.4); backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px); display: none; justify-content: center;
+            align-items: center; z-index: 9999; animation: fadeIn 0.3s ease;
+        }
+        
+        .welcome-modal {
+            background: #ffffff; padding: 30px; border-radius: 25px;
+            width: 90%; max-width: 420px; text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15); border: 1px solid rgba(0, 179, 89, 0.2);
+            animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .welcome-modal i.main-icon { font-size: 50px; color: var(--primary-color); margin-bottom: 15px; }
+        .welcome-modal h2 { font-size: 20px; margin-bottom: 10px; color: var(--text-main); }
+        .welcome-modal p { font-size: 13px; color: var(--text-sub); line-height: 1.6; margin-bottom: 20px; }
+        
+        /* جدول بيانات الزائر داخل نافذة الترحيب */
+        .visitor-info-box {
+            background: #f4f7f5; border-radius: 15px; padding: 15px;
+            margin-bottom: 20px; text-align: right; font-size: 12px;
+            border: 1px dashed rgba(0, 179, 89, 0.3);
+        }
+        .info-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
+        .info-row:last-child { margin-bottom: 0; }
+        .info-label { color: var(--text-sub); font-weight: 500; }
+        .info-value { color: var(--text-main); font-weight: bold; }
+
+        .btn-close-modal {
+            background: var(--primary-color); color: white; border: none;
+            padding: 10px 30px; font-size: 14px; font-weight: bold;
+            border-radius: 20px; cursor: pointer; width: 100%;
+            box-shadow: 0 4px 12px rgba(0, 179, 89, 0.3);
+        }
+
+        footer { font-size: 12px; color: var(--text-sub); width: 100%; text-align: center; padding-top: 20px; border-top: 1px solid rgba(0,0,0,0.03); }
+        footer a { color: var(--primary-color); text-decoration: none; font-weight: 600; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <h1>بوابة الأخبار الذكية 📰</h1>
-        <p>متابعة تغطية حية لأحدث الأخبار والأحداث العالمية والمحلية بلحظة وقوعها</p>
-    </header>
-
-    <div class="controls-bar">
-        <div class="search-box">
-            <i class="fa-solid fa-magnifying-glass" style="color: var(--primary-color);"></i>
-            <input type="text" id="search-input" placeholder="ابحث عن أي خبر أو حدث..." onkeyup="handleSearch(event)">
-        </div>
-
-        <div class="categories">
-            <button class="cat-btn active" onclick="filterCategory('general', this)">الكل</button>
-            <button class="cat-btn" onclick="filterCategory('technology', this)">تكنولوجيا</button>
-            <button class="cat-btn" onclick="filterCategory('business', this)">اقتصاد</button>
-            <button class="cat-btn" onclick="filterCategory('sports', this)">رياضة</button>
-            <button class="cat-btn" onclick="filterCategory('science', this)">علوم</button>
-        </div>
-    </div>
-
-    <div class="news-grid" id="news-container">
-        <div class="loading"><i class="fa-solid fa-spinner fa-spin"></i> جاري جلب أحدث الأخبار الآن...</div>
-    </div>
-
-    <div class="copyright">
-        &copy; جميع الحقوق محفوظة لـ <a href="https://saudiearth.com" target="_blank">أرض السعودية</a>
-    </div>
+<div class="visitor-badge" id="live-badge">
+    <div><i class="fa-solid fa-desktop"></i> <span id="badge-os">جاري التحليل...</span></div>
+    <div><i class="fa-solid fa-clock"></i> <span id="badge-time">00:00</span></div>
 </div>
-
-<script>
-    // استخدام واجهة برمجة مجانية ومفتوحة للأخبار (تحديث تلقائي)
-    // ملاحظة: تم استخدام مزود أخبار متوافق ومباشر لا يحتاج لتسجيل معقد
-    const API_KEY = "pub_316715fbc7496c1df77bb7ca8a301ba16723b"; // مفتاح مدمج ومجاني للتشغيل الفوري
-    let currentCategory = "general";
-    let searchQuery = "";
-
-    async function fetchNews() {
-        const container = document.getElementById("news-container");
-        container.innerHTML = '<div class="loading"><i class="fa-solid fa-spinner fa-spin"></i> جاري تحديث الأخبار...</div>';
-
-        // بناء رابط جلب الأخبار باللغة العربية
-        let url = `https://newsdata.io/api/1/news?apikey=${API_KEY}&language=ar`;
-        
-        if (searchQuery) {
-            url += `&q=${encodeURIComponent(searchQuery)}`;
-        } else if (currentCategory !== "general") {
-            url += `&category=${currentCategory}`;
-        }
-
-        try {
-            const response = await fetch(url);
-            const data = await response.json();
-
-            if (!data.results || data.results.length === 0) {
-                container.innerHTML = '<div class="error-msg">❌ لم يتم العثور على أخبار مطابقة للبحث حالياً.</div>';
-                return;
-            }
-
-            container.innerHTML = ""; // تنظيف الواجهة لبناء الكروت
-
-            data.results.forEach(article => {
-                // فلترة مبدئية للتأكد من وجود عنوان
-                if(!article.title) return;
-
-                const card = document.createElement("div");
-                card.className = "news-card";
-
-                // وضع صورة افتراضية في حال عدم توفر صورة للخبر
-                const imgUrl = article.image_url || "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=500";
-                
-                // تنسيق الوقت
-                const pubDate = article.pubDate ? article.pubDate.split(" ")[0] : "اليوم";
-
-                card.innerHTML = `
-                    <img class="news-img" src="${imgUrl}" alt="صورة الخبر" onerror="this.src='https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=500'">
-                    <div class="news-content">
-                        <span class="news-source">${article.source_id ? article.source_id.toUpperCase() : "مصدر موثوق"}</span>
-                        <div class="news-title">${article.title}</div>
-                        <div class="news-desc">${article.description || "اضغط على قراءة المزيد للاطلاع على تفاصيل هذا الحدث الإخباري الشامل عبر المصدر الرئيسي..."}</div>
-                        <div class="news-meta">
-                            <span><i class="fa-regular fa-calendar"></i> ${pubDate}</span>
-                            <a href="${article.link}" target="_blank" class="read-more">قراءة المزيد <i class="fa-solid fa-arrow-left"></i></a>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-
-        } catch (error) {
-            container.innerHTML = '<div class="error-msg">⚠️ عذراً، فشل الاتصال بخادم الأخبار. يرجى تحديث الصفحة.</div>';
-        }
-    }
-
-    // الانتقال بين الأقسام
-    function filterCategory(category, element) {
-        searchQuery = "";
-        document.getElementById("search-input").value = "";
-        currentCategory = category;
-
-        document.querySelectorAll(".cat-btn").forEach(btn => btn.classList.remove("active"));
-        element.classList.add("active");
-
-        fetchNews();
-    }
-
-    // إدارة البحث عند الضغط على Enter أو الكتابة
-    function handleSearch(event) {
-        if (event.key === "Enter") {
-            searchQuery = document.getElementById("search-input").value.trim();
-            if(searchQuery) {
-                document.querySelectorAll(".cat-btn").forEach(btn => btn.classList.remove("active"));
-                fetchNews();
-            }
-        }
-    }
-
-    // جلب الأخبار تلقائياً عند تحميل الصفحة لأول مرة
-    fetchNews();
-</script>
-</body>
-</html>
