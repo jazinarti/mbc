@@ -2,13 +2,12 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>لعبة الدودة الكلاسيكية | أرض السعودية</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة الأخبار الذكية | أرض السعودية</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #00b359;
-            --primary-light: #00e676;
             --bg-gradient: linear-gradient(135deg, #f4f7f5 0%, #e8efe9 100%);
             --card-bg: rgba(255, 255, 255, 0.9);
             --text-main: #1e2925;
@@ -19,189 +18,221 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            user-select: none;
-            -webkit-user-select: none;
-            touch-action: manipulation;
         }
 
         body {
             background: var(--bg-gradient);
             color: var(--text-main);
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            padding: 20px;
             min-height: 100vh;
-            padding: 15px;
         }
 
-        /* كرت اللعبة الرئيسي */
-        .game-container {
-            background: var(--card-bg);
-            border-radius: 25px;
-            padding: 30px 25px;
-            box-shadow: 0 15px 35px rgba(0, 60, 30, 0.08);
-            width: 100%;
-            max-width: 400px;
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* الهيدر والعنوان */
+        header {
             text-align: center;
-            border: 1px solid rgba(0, 179, 89, 0.1);
+            margin-bottom: 30px;
         }
 
-        h1 {
-            font-size: 24px;
-            margin-bottom: 5px;
+        header h1 {
+            font-size: 28px;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        header p {
+            font-size: 14px;
+            color: var(--text-sub);
+        }
+
+        /* شريط التحكم والبحث */
+        .controls-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-box {
+            display: flex;
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 179, 89, 0.2);
+            border-radius: 12px;
+            padding: 8px 15px;
+            width: 100%;
+            max-width: 350px;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,60,30,0.03);
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            padding-right: 10px;
+            font-family: inherit;
             color: var(--text-main);
         }
 
-        .subtitle {
-            font-size: 13px;
-            color: var(--text-sub);
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
-
-        /* لوحة النتائج */
-        .score-board {
+        .categories {
             display: flex;
-            justify-content: space-around;
-            background: rgba(0, 0, 0, 0.04);
-            padding: 12px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            font-weight: bold;
-            font-size: 14px;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            width: 100%;
         }
 
-        .score-box span {
-            color: var(--primary-color);
-            font-size: 16px;
-        }
-
-        /* شاشة اللعبة الزجاجية الداكنة */
-        canvas {
-            background: #1e2925;
-            border-radius: 15px;
-            display: block;
-            margin: 0 auto;
-            box-shadow: inset 0 4px 10px rgba(0,0,0,0.3), 0 4px 15px rgba(0, 179, 89, 0.05);
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* أزرار التحكم اللمسية للجوال (استجابة سريعة جداً) */
-        .touch-controls {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(3, 55px);
-            gap: 12px;
-            margin-top: 25px;
-            max-width: 220px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .ctrl-btn {
-            background: #1e2925;
-            color: white;
-            border: none;
-            border-radius: 15px;
-            font-size: 22px;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            transition: background 0.1s, transform 0.1s;
-        }
-
-        .ctrl-btn:active {
-            background: var(--primary-color);
-            transform: scale(0.92);
-        }
-
-        #btn-up { grid-column: 2; grid-row: 1; }
-        #btn-left { grid-column: 1; grid-row: 2; }
-        #btn-right { grid-column: 3; grid-row: 2; }
-        #btn-down { grid-column: 2; grid-row: 3; }
-
-        /* شاشة الخسارة وزر الإعادة */
-        .game-over-overlay {
-            display: none;
-            margin-top: 15px;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .btn-restart {
-            background: linear-gradient(135deg, #00cc66 0%, #00994d 100%);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            font-size: 14px;
-            font-weight: bold;
+        .cat-btn {
+            background: var(--card-bg);
+            border: 1px solid rgba(0,0,0,0.05);
+            padding: 8px 16px;
             border-radius: 20px;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 179, 89, 0.3);
-            transition: transform 0.2s;
+            font-weight: 500;
+            font-size: 13px;
+            white-space: nowrap;
+            transition: all 0.2s;
+            color: var(--text-sub);
         }
 
-        .btn-restart:hover {
-            transform: scale(1.05);
+        .cat-btn.active, .cat-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 10px rgba(0, 179, 89, 0.2);
         }
 
-        /* الحقوق أسفل الموقع */
-        .copyright {
+        /* شبكة عرض الأخبار */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .news-card {
+            background: var(--card-bg);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 60, 30, 0.05);
+            border: 1px solid rgba(0, 179, 89, 0.1);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .news-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background: #e2e8f0;
+        }
+
+        .news-content {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .news-source {
+            font-size: 11px;
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .news-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .news-desc {
+            font-size: 12px;
+            color: var(--text-sub);
+            line-height: 1.5;
+            margin-bottom: 15px;
+            flex: 1;
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             font-size: 11px;
             color: var(--text-sub);
-            margin-top: 25px;
-            font-weight: 500;
+            border-top: 1px solid rgba(0,0,0,0.04);
+            padding-top: 10px;
         }
 
-        .copyright a {
+        .read-more {
             color: var(--primary-color);
             text-decoration: none;
-            font-weight: 600;
+            font-weight: bold;
         }
 
-        /* إخفاء أزرار الشاشة تلقائياً عند فتح الموقع من الكمبيوتر */
+        /* رسالة جاري التحميل */
+        .loading, .error-msg {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 50px 0;
+            color: var(--text-sub);
+        }
+
+        .copyright {
+            text-align: center;
+            font-size: 11px;
+            color: var(--text-sub);
+            margin-top: 50px;
+            padding: 20px 0;
+            border-top: 1px solid rgba(0,0,0,0.04);
+        }
+        .copyright a { color: var(--primary-color); text-decoration: none; font-weight: 600; }
+
         @media (min-width: 768px) {
-            .touch-controls {
-                display: none;
-            }
-            .subtitle::after {
-                content: " (استخدم أسهم لوحة المفاتيح للعب)";
-            }
+            .categories { width: auto; }
         }
     </style>
 </head>
 <body>
 
-<div class="game-container">
-    <h1>لعبة الدودة 🐍</h1>
-    <div class="subtitle">العب الآن مجاناً بدون تسجيل</div>
+<div class="container">
+    <header>
+        <h1>بوابة الأخبار الذكية 📰</h1>
+        <p>متابعة تغطية حية لأحدث الأخبار والأحداث العالمية والمحلية بلحظة وقوعها</p>
+    </header>
 
-    <div class="score-board">
-        <div class="score-box">النقاط: <span id="current-score">0</span></div>
-        <div class="score-box">أعلى نتيجة: <span id="high-score">0</span></div>
+    <div class="controls-bar">
+        <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass" style="color: var(--primary-color);"></i>
+            <input type="text" id="search-input" placeholder="ابحث عن أي خبر أو حدث..." onkeyup="handleSearch(event)">
+        </div>
+
+        <div class="categories">
+            <button class="cat-btn active" onclick="filterCategory('general', this)">الكل</button>
+            <button class="cat-btn" onclick="filterCategory('technology', this)">تكنولوجيا</button>
+            <button class="cat-btn" onclick="filterCategory('business', this)">اقتصاد</button>
+            <button class="cat-btn" onclick="filterCategory('sports', this)">رياضة</button>
+            <button class="cat-btn" onclick="filterCategory('science', this)">علوم</button>
+        </div>
     </div>
 
-    <canvas id="gameCanvas" width="300" height="300"></canvas>
-
-    <div class="game-over-overlay" id="over-box">
-        <p style="color: #ff3d00; font-weight: bold; margin-bottom: 12px; font-size: 15px;">انتهت اللعبة! 😢</p>
-        <button class="btn-restart" onclick="resetGame()">العب مجدداً</button>
-    </div>
-
-    <div class="touch-controls">
-        <button class="ctrl-btn" id="btn-up"><i class="fa-solid fa-chevron-up"></i></button>
-        <button class="ctrl-btn" id="btn-left"><i class="fa-solid fa-chevron-right"></i></button>
-        <button class="ctrl-btn" id="btn-right"><i class="fa-solid fa-chevron-left"></i></button>
-        <button class="ctrl-btn" id="btn-down"><i class="fa-solid fa-chevron-down"></i></button>
+    <div class="news-grid" id="news-container">
+        <div class="loading"><i class="fa-solid fa-spinner fa-spin"></i> جاري جلب أحدث الأخبار الآن...</div>
     </div>
 
     <div class="copyright">
@@ -210,134 +241,94 @@
 </div>
 
 <script>
-    const canvas = document.getElementById("gameCanvas");
-    const ctx = canvas.getContext("2d");
+    // استخدام واجهة برمجة مجانية ومفتوحة للأخبار (تحديث تلقائي)
+    // ملاحظة: تم استخدام مزود أخبار متوافق ومباشر لا يحتاج لتسجيل معقد
+    const API_KEY = "pub_316715fbc7496c1df77bb7ca8a301ba16723b"; // مفتاح مدمج ومجاني للتشغيل الفوري
+    let currentCategory = "general";
+    let searchQuery = "";
 
-    const box = 15; // حجم المربع الواحد
-    let snake, direction, food, score, gameInterval;
-    
-    // جلب أعلى نتيجة محفوظة على جهاز المستخدم سابقاً
-    let highScore = localStorage.getItem("snakeHighScoreOnly") || 0;
-    document.getElementById("high-score").innerText = highScore;
+    async function fetchNews() {
+        const container = document.getElementById("news-container");
+        container.innerHTML = '<div class="loading"><i class="fa-solid fa-spinner fa-spin"></i> جاري تحديث الأخبار...</div>';
 
-    function initGame() {
-        snake = [{ x: 10 * box, y: 10 * box }];
-        direction = "RIGHT";
-        score = 0;
-        document.getElementById("current-score").innerText = score;
-        document.getElementById("over-box").style.display = "none";
-        generateFood();
+        // بناء رابط جلب الأخبار باللغة العربية
+        let url = `https://newsdata.io/api/1/news?apikey=${API_KEY}&language=ar`;
         
-        if (gameInterval) clearInterval(gameInterval);
-        gameInterval = setInterval(draw, 120); // ضبط سرعة اللعبة لتكون ممتعة وموزونة
-    }
-
-    function generateFood() {
-        food = {
-            x: Math.floor(Math.random() * (canvas.width / box)) * box,
-            y: Math.floor(Math.random() * (canvas.height / box)) * box
-        };
-        // التحقق من عدم ظهور الأكل تحت جسم الدودة بالخطأ
-        for (let cell of snake) {
-            if (cell.x === food.x && cell.y === food.y) generateFood();
-        }
-    }
-
-    // التحكم الاحترافي عبر الكيبورد (يدعم الأسهم وحروف WASD باللغتين)
-    document.addEventListener("keydown", (e) => {
-        const key = e.key.toLowerCase();
-        if (e.key === "ArrowUp" || key === "w" || key === "ص") changeDirection("UP");
-        if (e.key === "ArrowDown" || key === "s" || key === "س") changeDirection("DOWN");
-        if (e.key === "ArrowLeft" || key === "a" || key === "ش") changeDirection("LEFT");
-        if (e.key === "ArrowRight" || key === "d" || key === "ي") changeDirection("RIGHT");
-    });
-
-    // تشغيل حدث اللمس الفوري السريع للهواتف (iOS & Android) لمنع التأخير والتكبير
-    document.getElementById("btn-up").addEventListener("touchstart", (e) => { e.preventDefault(); changeDirection("UP"); });
-    document.getElementById("btn-down").addEventListener("touchstart", (e) => { e.preventDefault(); changeDirection("DOWN"); });
-    document.getElementById("btn-left").addEventListener("touchstart", (e) => { e.preventDefault(); changeDirection("LEFT"); });
-    document.getElementById("btn-right").addEventListener("touchstart", (e) => { e.preventDefault(); changeDirection("RIGHT"); });
-
-    function changeDirection(newDir) {
-        if (newDir === "UP" && direction !== "DOWN") direction = "UP";
-        if (newDir === "DOWN" && direction !== "UP") direction = "DOWN";
-        if (newDir === "LEFT" && direction !== "RIGHT") direction = "LEFT";
-        if (newDir === "RIGHT" && direction !== "LEFT") direction = "RIGHT";
-    }
-
-    function checkCollision(head, array) {
-        for (let i = 0; i < array.length; i++) {
-            if (head.x === array[i].x && head.y === array[i].y) return true;
-        }
-        return false;
-    }
-
-    function draw() {
-        // رسم خلفية الحقل
-        ctx.fillStyle = "#1e2925";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        // رسم الدودة (الرأس بلون مميز والجسم بلون أساسي متناسق)
-        for (let i = 0; i < snake.length; i++) {
-            ctx.fillStyle = i === 0 ? var(--primary-light) : var(--primary-color);
-            ctx.fillRect(snake[i].x, snake[i].y, box, box);
-            ctx.strokeStyle = "#1e2925";
-            ctx.strokeRect(snake[i].x, snake[i].y, box, box);
+        if (searchQuery) {
+            url += `&q=${encodeURIComponent(searchQuery)}`;
+        } else if (currentCategory !== "general") {
+            url += `&category=${currentCategory}`;
         }
 
-        // رسم طعام الدودة (تفاحة دائرية ناعمة)
-        ctx.fillStyle = "#ff3d00";
-        ctx.beginPath();
-        ctx.arc(food.x + box/2, food.y + box/2, box/2 - 1, 0, 2 * Math.PI);
-        ctx.fill();
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
 
-        let snakeX = snake[0].x;
-        let snakeY = snake[0].y;
-
-        if (direction === "UP") snakeY -= box;
-        if (direction === "DOWN") snakeY += box;
-        if (direction === "LEFT") snakeX -= box;
-        if (direction === "RIGHT") snakeX += box;
-
-        // منطق التغذية والنمو
-        if (snakeX === food.x && snakeY === food.y) {
-            score++;
-            document.getElementById("current-score").innerText = score;
-            if (score > highScore) {
-                highScore = score;
-                localStorage.setItem("snakeHighScoreOnly", highScore);
-                document.getElementById("high-score").innerText = highScore;
+            if (!data.results || data.results.length === 0) {
+                container.innerHTML = '<div class="error-msg">❌ لم يتم العثور على أخبار مطابقة للبحث حالياً.</div>';
+                return;
             }
-            generateFood();
-        } else {
-            snake.pop();
+
+            container.innerHTML = ""; // تنظيف الواجهة لبناء الكروت
+
+            data.results.forEach(article => {
+                // فلترة مبدئية للتأكد من وجود عنوان
+                if(!article.title) return;
+
+                const card = document.createElement("div");
+                card.className = "news-card";
+
+                // وضع صورة افتراضية في حال عدم توفر صورة للخبر
+                const imgUrl = article.image_url || "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=500";
+                
+                // تنسيق الوقت
+                const pubDate = article.pubDate ? article.pubDate.split(" ")[0] : "اليوم";
+
+                card.innerHTML = `
+                    <img class="news-img" src="${imgUrl}" alt="صورة الخبر" onerror="this.src='https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=500'">
+                    <div class="news-content">
+                        <span class="news-source">${article.source_id ? article.source_id.toUpperCase() : "مصدر موثوق"}</span>
+                        <div class="news-title">${article.title}</div>
+                        <div class="news-desc">${article.description || "اضغط على قراءة المزيد للاطلاع على تفاصيل هذا الحدث الإخباري الشامل عبر المصدر الرئيسي..."}</div>
+                        <div class="news-meta">
+                            <span><i class="fa-regular fa-calendar"></i> ${pubDate}</span>
+                            <a href="${article.link}" target="_blank" class="read-more">قراءة المزيد <i class="fa-solid fa-arrow-left"></i></a>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+        } catch (error) {
+            container.innerHTML = '<div class="error-msg">⚠️ عذراً، فشل الاتصال بخادم الأخبار. يرجى تحديث الصفحة.</div>';
         }
-
-        const newHead = { x: snakeX, y: snakeY };
-
-        // قوانين الخسارة والاصطدام بالحواف أو النفس
-        if (
-            snakeX < 0 || snakeY < 0 || 
-            snakeX >= canvas.width || snakeY >= canvas.height ||
-            checkCollision(newHead, snake)
-        ) {
-            clearInterval(gameInterval);
-            document.getElementById("over-box").style.display = "block";
-            return;
-        }
-
-        snake.unshift(newHead);
     }
 
-    // لتسهيل جلب الألوان البرمجية من الـ CSS إلى الـ Canvas مباشرة
-    function var(name) {
-        return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    // الانتقال بين الأقسام
+    function filterCategory(category, element) {
+        searchQuery = "";
+        document.getElementById("search-input").value = "";
+        currentCategory = category;
+
+        document.querySelectorAll(".cat-btn").forEach(btn => btn.classList.remove("active"));
+        element.classList.add("active");
+
+        fetchNews();
     }
 
-    function resetGame() { initGame(); }
-    
-    // تشغيل اللعبة تلقائياً فور دخول الموقع
-    initGame();
+    // إدارة البحث عند الضغط على Enter أو الكتابة
+    function handleSearch(event) {
+        if (event.key === "Enter") {
+            searchQuery = document.getElementById("search-input").value.trim();
+            if(searchQuery) {
+                document.querySelectorAll(".cat-btn").forEach(btn => btn.classList.remove("active"));
+                fetchNews();
+            }
+        }
+    }
+
+    // جلب الأخبار تلقائياً عند تحميل الصفحة لأول مرة
+    fetchNews();
 </script>
 </body>
 </html>
