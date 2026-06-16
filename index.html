@@ -162,3 +162,152 @@
     <div><i class="fa-solid fa-desktop"></i> <span id="badge-os">جاري التحليل...</span></div>
     <div><i class="fa-solid fa-clock"></i> <span id="badge-time">00:00</span></div>
 </div>
+
+<div class="search-container">
+    <div class="brand-logo">
+        <i class="fa-solid fa-magnifying-glass-blur"></i>
+        <span>ابحث هنا</span>
+    </div>
+
+    <div class="search-box-wrapper">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" id="query-input" class="search-input" placeholder="اكتب ما تريد البحث عنه في جوجل..." autocomplete="off" onkeydown="checkEnter(event)">
+    </div>
+
+    <div class="buttons-group">
+        <button class="btn-search" onclick="executeSearch()">بحث جوجل</button>
+        <button class="btn-search" onclick="luckySearch()">ضربة حظ ✨</button>
+    </div>
+
+    <div class="search-hints">
+        جرب البحث عن: 
+        <span onclick="quickSearch('السعودية')">السعودية</span>، 
+        <span onclick="quickSearch('أخبار اليوم')">أخبار اليوم</span>، 
+        <span onclick="quickSearch('راديو مباشر')">راديو مباشر</span>
+    </div>
+</div>
+
+<div class="welcome-overlay" id="welcomeOverlay">
+    <div class="welcome-modal">
+        <i class="fa-solid fa-circle-check main-icon"></i>
+        <h2>أهلاً بك في زيارتك الأولى! 👋</h2>
+        <p>مرحباً بك في منصة البحث الذكية والمخصصة لأرض السعودية. هذا المحرك يختصر عليك المسافات ويوجهك لنتائج جوجل الرسمية بأمان وبدون إعلانات مزعجة.</p>
+        
+        <div class="visitor-info-box">
+            <div style="font-weight: bold; color:var(--primary-color); margin-bottom: 10px; text-align: center;">
+                <i class="fa-solid fa-fingerprint"></i> هويتك الرقمية للجلسة الحالية:
+            </div>
+            <div class="info-row">
+                <span class="info-label">نظام التشغيل المتوقع:</span>
+                <span class="info-value" id="modal-os">...</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">المتصفح المستخدم:</span>
+                <span class="info-value" id="modal-browser">...</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">وقت الدخول المحلي:</span>
+                <span class="info-value" id="modal-time">...</span>
+            </div>
+        </div>
+
+        <button class="btn-close-modal" onclick="closeWelcomeModal()">ابدأ الاستخدام الآن</button>
+    </div>
+</div>
+
+<footer>
+    &copy; جميع الحقوق محفوظة لـ <a href="https://saudiearth.com" target="_blank">أرض السعودية</a>
+</footer>
+
+<script>
+    // 1. وظائف رصد واستخراج بيانات متصفح الزائر ونظامه
+    function getVisitorData() {
+        const userAgent = navigator.userAgent;
+        let os = "غير معروف";
+        let browser = "غير معروف";
+
+        // تحديد نظام التشغيل
+        if (userAgent.indexOf("Win") !== -1) os = "Windows";
+        if (userAgent.indexOf("Mac") !== -1) os = "MacOS / iOS";
+        if (userAgent.indexOf("X11") !== -1) os = "UNIX";
+        if (userAgent.indexOf("Linux") !== -1) os = "Linux / Android";
+
+        // تحديد المتصفح
+        if (userAgent.indexOf("Chrome") !== -1) browser = "Google Chrome";
+        else if (userAgent.indexOf("Safari") !== -1) browser = "Safari";
+        else if (userAgent.indexOf("Firefox") !== -1) browser = "Mozilla Firefox";
+        else if (userAgent.indexOf("Edge") !== -1) browser = "Microsoft Edge";
+
+        // تحديد الوقت المحلي الحالي
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
+
+        return { os, browser, timeString };
+    }
+
+    // 2. فحص حالة الزائر (أول مرة أم زائر متكرر) عند تحميل الصفحة
+    window.addEventListener('DOMContentLoaded', () => {
+        const data = getVisitorData();
+        
+        // تحديث شارة البيانات الحية أعلى الشاشة
+        document.getElementById("badge-os").innerText = `${data.os} - ${data.browser}`;
+        document.getElementById("badge-time").innerText = data.timeString;
+
+        // التحقق من وجود المعرف في الذاكرة المحلية
+        const isFirstTime = localStorage.getItem("isFirstTimeVisitor");
+
+        if (isFirstTime === null) {
+            // زائر لأول مرة -> عرض البيانات في النافذة المنبثقة وثم فتحها
+            document.getElementById("modal-os").innerText = data.os;
+            document.getElementById("modal-browser").innerText = data.browser;
+            document.getElementById("modal-time").innerText = data.timeString;
+            
+            document.getElementById("welcomeOverlay").style.display = "flex";
+        }
+    });
+
+    // دالة إغلاق النافذة الترحيبية وحفظ الحالة لعدم إزعاج المستخدم مجدداً
+    function closeWelcomeModal() {
+        localStorage.setItem("isFirstTimeVisitor", "false");
+        document.getElementById("welcomeOverlay").style.style.animation = "fadeIn 0.2s reverse";
+        setTimeout(() => {
+            document.getElementById("welcomeOverlay").style.display = "none";
+        }, 200);
+    }
+
+    // 3. محرك وطرق تنفيذ البحث (جوجل والتحويل السريع)
+    function executeSearch() {
+        const inputElement = document.getElementById("query-input");
+        const query = inputElement.value.trim();
+
+        if (query === "") {
+            alert("الرجاء كتابة كلمة للبحث عنها أولاً!");
+            return;
+        }
+
+        const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+        window.open(googleSearchUrl, '_blank');
+    }
+
+    function quickSearch(text) {
+        document.getElementById("query-input").value = text;
+        executeSearch();
+    }
+
+    function checkEnter(event) {
+        if (event.key === "Enter") {
+            executeSearch();
+        }
+    }
+
+    function luckySearch() {
+        const inputElement = document.getElementById("query-input");
+        let query = inputElement.value.trim();
+        if (query === "") query = "السعودية رؤية 2030";
+        const googleLuckyUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}&btnI=I`;
+        window.open(googleLuckyUrl, '_blank');
+    }
+</script>
+
+</body>
+</html>
