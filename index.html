@@ -1,1 +1,497 @@
-ss
+            margin-bottom: 30px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(37, 99, 235, 0.1);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* الهيدر (Header) */
+        header {
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        .logo-box {
+            width: 35px;
+            height: 35px;
+            background-color: var(--primary-color);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-box-inner {
+            width: 18px;
+            height: 22px;
+            border: 2px solid var(--white);
+            border-radius: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .btn-download-nav {
+            background-color: var(--primary-color);
+            color: var(--white) !important;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 500;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+        }
+
+        /* القسم الرئيسي (Hero Section) */
+        .hero {
+            padding: 160px 20px 80px 20px;
+            background: linear-gradient(180deg, #eff6ff 0%, var(--bg-main) 100%);
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .badge {
+            background-color: var(--white);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            display: inline-block;
+            margin-bottom: 20px;
+            border: 1px solid rgba(37, 99, 235, 0.1);
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--text-dark);
+            line-height: 1.3;
+            margin-bottom: 15px;
+        }
+
+        .hero .subtitle {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .hero .verse {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 40px;
+        }
+
+        .download-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+        }
+
+        .btn-store {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background-color: var(--text-dark);
+            color: var(--white);
+            text-decoration: none;
+            padding: 12px 28px;
+            border-radius: 14px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            min-width: 200px;
+            text-align: right;
+        }
+
+        .btn-store:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .btn-store.apple {
+            background-color: #000000;
+        }
+
+        .btn-store.google-play {
+            background-color: #0f172a;
+        }
+
+        .btn-store svg {
+            width: 28px;
+            height: 28px;
+            fill: currentColor;
+        }
+
+        .btn-store .btn-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .btn-store .btn-text .small-txt {
+            font-size: 0.75rem;
+            opacity: 0.8;
+        }
+
+        .btn-store .btn-text .big-txt {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        /* معرض صور التطبيق */
+        .mockups-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+            padding: 0 10px;
+        }
+
+        .phone-mockup {
+            background-color: #000;
+            border-radius: 40px;
+            padding: 10px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+            max-width: 280px;
+            width: 100%;
+            border: 4px solid #334155;
+            position: relative;
+            transition: transform 0.4s;
+        }
+
+        .phone-mockup:hover {
+            transform: translateY(-10px);
+        }
+
+        .phone-mockup img {
+            width: 100%;
+            border-radius: 32px;
+            display: block;
+        }
+
+        /* قسم الميزات (Features) */
+        .features {
+            padding: 100px 20px;
+            background-color: var(--white);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h3 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1max));
+            gap: 30px;
+        }
+
+        /* لضمان التوافقية بدون flex/grid معقد في المنصات القديمة، نستخدم CSS Grid الحديث المريح جداً للموبايل */
+        @media(min-width: 768px) {
+            .features-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .feature-card {
+            background-color: var(--bg-main);
+            padding: 40px 30px;
+            border-radius: 24px;
+            border: 1px solid rgba(0,0,0,0.02);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(37, 99, 235, 0.05);
+            background-color: var(--primary-light);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--white);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px auto;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.04);
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .feature-card h4 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* الفوتر (Footer) */
+        footer {
+            background-color: var(--white);
+            padding: 40px 20px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-dev {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .flag-icon {
+            width: 20px;
+            vertical-align: middle;
+        }
+
+        .footer-rights {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* متوافق مع الهواتف الذكية (Responsive Design) */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; /* تبسيط الهيدر في الجوال */
+            }
+            .hero h2 {
+                font-size: 2rem;
+            }
+            .hero .subtitle {
+                font-size: 1.1rem;
+            }
+            .mockups-container {
+                gap: 20px;
+            }
+            .phone-mockup {
+                max-width: 45%;
+            }
+            /* إذا كان الجوال صغيراً جداً نعرض موك اب واحد بالكامل */
+            @media (max-width: 480px) {
+                .phone-mockup {
+                    max-width: 80%;
+                }
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شاشة السبلاش الاحترافية -->
+    <div id="splash-screen">
+        <div class="splash-logo-container">
+            <div class="splash-icon"></div>
+        </div>
+        <h1>القرآن الكريم</h1>
+        <p>قراءة مريحة • بدون إنترنت</p>
+        <div class="spinner"></div>
+    </div>
+
+    <!-- الهيدر -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-box"><div class="logo-box-inner"></div></div>
+                <span>القرآن الكريم</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#features">الميزات</a></li>
+                <li><a href="#download" class="btn-download-nav">تحميل الآن</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- القسم الرئيسي (Hero) -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="badge">جديد ومتميز</div>
+            <h2>تطبيق القرآن الكريم الجديد</h2>
+            <div class="subtitle">قراءة مريحة • بدون إنترنت</div>
+            <div class="verse">« وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا »</div>
+            
+            <!-- أزرار التحميل للمتاجر -->
+            <div class="download-buttons" id="download">
+                <!-- رابط متجر ابل -->
+                <a href="https://apps.apple.com/us/app/id6742659162" target="_blank" class="btn-store apple">
+                    <svg viewBox="0 0 384 512"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-41.3-19-67.5-18.7-34.5.5-66.4 20.1-84 50.8-35.3 61.6-9 151.6 24.8 200.8 16.3 23.4 35.6 49.2 60.7 48.3 24.1-.9 33.2-15.5 62.4-15.5s37.3 15.5 62.4 15.1c25.6-.4 42.7-23.2 59-46.7 18.8-27.3 26.4-53.7 26.8-55.1-1.1-.4-51.4-19.6-51.9-77.2zm-41.2-156.4c20.3-24.8 33.9-59.2 30.2-93.3-29 1.2-64.1 19.3-84.9 43.5-18.4 20.8-34.4 55.7-30.1 89.2 31.9 2.5 64.6-14.6 84.8-39.4z"/></svg>
+                    <div class="btn-text">
+                        <span class="small-txt">حمل من متجر</span>
+                        <span class="big-txt">App Store</span>
+                    </div>
+                </a>
+
+                <!-- رابط متجر اندرويد -->
+                <a href="https://play.google.com/store/apps/details?id=com.saudieearth.messagingapp" target="_blank" class="btn-store google-play">
+                    <svg viewBox="0 0 512 512"><path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58 33.4-60.1-60.1 60.1-60.1 58 33.4c13.1 7.6 21.8 19.7 21.8 33.3s-8.7 25.7-21.8 33.3zM385.4 337.8L104.6 499l220.7-126.5 60.1-60.1z"/></svg>
+                    <div class="btn-text">
+                        <span class="small-txt">حمل من متجر</span>
+                        <span class="big-txt">Google Play</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- عرض لقطات الشاشة الاحترافية المرفقة -->
+            <div class="mockups-container">
+                <div class="phone-mockup">
+                    <div style="background-color: #eff6ff; height: 100%; border-radius: 22px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; font-weight: bold; color: var(--primary-color);">
+                        <div style="font-size: 3rem; margin-bottom: 10px;">📖</div>
+                        الواجهة الترحيبية للقرآن
+                    </div>
+                </div>
+                <div class="phone-mockup">
+                    <div style="background-color: #fff; height: 100%; border-radius: 22px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center;">
+                        <div style="font-size: 2rem; color: #ff9800; margin-bottom: 10px;">🔥 0%</div>
+                        <div style="font-weight: bold; font-size: 1.1rem; margin-bottom: 5px;">متابعة الختمة اليومية</div>
+                        <p style="font-size: 0.8rem; color: var(--text-muted);">تحديد الأهداف ومتابعة الورد القرآني التلقائي بسهولة</p>
+                    </div>
+                </div>
+                <div class="phone-mockup">
+                    <div style="background-color: #f1fcf6; height: 100%; border-radius: 22px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; text-align: center;">
+                        <div style="font-size: 2rem; color: var(--accent-green); margin-bottom: 10px;">🗂️</div>
+                        <div style="font-weight: bold; font-size: 1.1rem; margin-bottom: 5px;">نظام البطاقات الذكي</div>
+                        <p style="font-size: 0.8rem; color: var(--text-muted);">تقسيم المصحف إلى 604 بطاقة لضمان التميز والمتابعة اليومية لشرائح السور</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم ميزات التطبيق -->
+    <section class="features" id="features">
+        <div class="section-title">
+            <h3>لماذا تختار تطبيق القرآن الكريم؟</h3>
+            <p>تم تصميم التطبيق بعناية فائقة ليوفر لك أفضل تجربة إيمانية يومية</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🌐</div>
+                <h4>بدون اتصال إنترنت</h4>
+                <p>تصفح المصحف الشريف كاملاً في أي وقت وأي مكان دون الحاجة لشبكة الإنترنت.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h4>خطة الختمة الذكية</h4>
+                <p>حدد المدة الزمنية المفضلة لختمتك (7، 15، 30، أو 60 يوماً) وسيقوم التطبيق بحساب وردك اليومي تلقائياً.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎴</div>
+                <h4>نظام البطاقات المبتكر</h4>
+                <p>نظام تفاعلي يربط كل صفحة ببطاقة خاصة تفتح تلقائياً لتتبع دقيق وممتع لإنجازك.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- الفوتر وحقوق الاسم -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-dev">
+                <span>تطوير: المطيري</span>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/0d/Flag_of_Saudi_Arabia.svg" alt="علم المملكة العربية السعودية" class="flag-icon">
+            </div>
+            <div class="footer-rights">
+                جميع الحقوق محفوظة &copy; 2026 | تطبيق القرآن الكريم للمطيري
+            </div>
+        </div>
+    </footer>
+
+    <!-- سكربت إخفاء شاشة السبلاش -->
+    <script>
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                splash.style.visibility = 'hidden';
+            }, 1500); // تعرض شاشة السبلاش لمدة ثانية ونصف ثم تختفي بنعومة
+        });
+    </script>
+</body>
+</html>
